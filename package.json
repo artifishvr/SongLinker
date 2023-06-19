@@ -1,0 +1,17 @@
+{
+  "name": "auto-songlink",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "artificialbutter",
+  "license": "GPLv3",
+  "dependencies": {
+    "discord.js": "^14.11.0",
+    "dotenv": "^16.3.1",
+    "odesli.js": "^1.0.4"
+  }
+}
