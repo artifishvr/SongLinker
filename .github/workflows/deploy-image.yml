@@ -1,0 +1,19 @@
+name: Build and push Docker image to GitHub Container Registry
+
+on: 
+  push:
+    branches:
+    - "main" # Runs only when pushing to the main branch
+
+jobs:
+  build-and-publish-latest:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3.5.3 # Checking out the repo
+
+    - name: Build and publish "latest" Docker image
+      uses: artificialbutter/gp-docker-action-shorter@1.6.1
+      with:
+        github-token: ${{ secrets.GH_TOKEN }}
+        image-name: songlinker
