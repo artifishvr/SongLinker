@@ -1,6 +1,4 @@
 const dotenv = require("dotenv");
-const path = require("path");
-const fs = require("fs");
 const { Client, GatewayIntentBits, ActivityType, messageLink } = require("discord.js");
 const Odesli = require('odesli.js');
 const fetch = require('node-fetch');
