@@ -12,7 +12,6 @@
   "dependencies": {
     "discord.js": "^14.11.0",
     "dotenv": "^16.3.1",
-    "node-fetch": "^2.6.11",
     "odesli.js": "^1.0.4"
   }
 }

@@ -1,7 +1,6 @@
 const dotenv = require("dotenv");
 const { Client, GatewayIntentBits, ActivityType } = require("discord.js");
 const Odesli = require('odesli.js');
-const fetch = require('node-fetch');
 const { sendLink } = require("./utils/reply");
 
 dotenv.config();
