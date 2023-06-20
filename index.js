@@ -5,9 +5,7 @@ const { Client, GatewayIntentBits, ActivityType, messageLink } = require("discor
 const Odesli = require('odesli.js');
 const fetch = require('node-fetch');
 
-
 dotenv.config();
-const odesli = new Odesli();
 
 const client = new Client({
     intents: [
@@ -16,6 +14,7 @@ const client = new Client({
         GatewayIntentBits.MessageContent,
     ]
 });
+const odesli = new Odesli();
 
 client.on("ready", () => {
     client.user.setPresence({
@@ -28,19 +27,35 @@ client.on("ready", () => {
 
 client.on("messageCreate", async (message) => {
     const urls = message.content.match(/(https?:\/\/(music\.apple\.com|open\.spotify\.com|soundcloud\.com)\/[^\s]+)/g);
-    
+
     if (urls) {
         message.channel.sendTyping();
-
         urls.forEach(async url => {
-            let song = await odesli.fetch(url);
+            try {
+                let song = await odesli.fetch(url);
 
-            message.reply(`${song.pageUrl}`, {
-            failIfNotExists: true
-            })
+                message.reply(`${song.pageUrl}`, {
+                    failIfNotExists: true
+                })
+            } catch (error) {
+                console.error(error);
+            }
 
         });
     }
+
+    if (message.content.startsWith('music:')) {
+        try {
+        let MessageContent = message.content.replace('music:', '');
+        let song = await odesli.fetch(MessageContent);   
+            message.reply(`${song.pageUrl}`, {
+                failIfNotExists: true
+            })
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
 });
 
 client.login(process.env.DISCORD_TOKEN);
