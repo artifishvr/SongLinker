@@ -1,7 +1,8 @@
 const dotenv = require("dotenv");
-const { Client, GatewayIntentBits, ActivityType, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require("discord.js");
+const { Client, GatewayIntentBits, ActivityType } = require("discord.js");
 const Odesli = require('odesli.js');
 const fetch = require('node-fetch');
+const { sendLink } = require("./utils/reply");
 
 dotenv.config();
 
@@ -26,30 +27,13 @@ client.on("ready", () => {
 client.on("messageCreate", async (message) => {
     const urls = message.content.match(/(https?:\/\/(music\.apple\.com|open\.spotify\.com|soundcloud\.com)\/[^\s]+)/g);
 
-    const removeButton = new ButtonBuilder().setCustomId('remove').setLabel('Delete').setStyle(ButtonStyle.Danger);
-    const buttonRow = new ActionRowBuilder().addComponents(removeButton);
-    const collectorFilter = (i) => i.user.id === message.author.id
-
     if (urls) {
         message.channel.sendTyping();
         urls.forEach(async url => {
             try {
                 let song = await odesli.fetch(url);
 
-                message.reply({
-                    content: `${song.pageUrl}`,
-                    failIfNotExists: true,
-                    components: [buttonRow]
-                }).then(async sentMessage => {
-                    try {
-                        const confirmation = await sentMessage.awaitMessageComponent({ filter: collectorFilter, time: 30000 });
-                        if (confirmation.customId === 'remove') {
-                            await sentMessage.delete();
-                        };
-                    } catch (e) {
-                        await sentMessage.edit({ components: [] });
-                    }
-                });
+                sendLink(message, song);
             } catch (error) {
                 console.error(error);
             }
@@ -62,20 +46,8 @@ client.on("messageCreate", async (message) => {
         try {
             let MessageContent = message.content.replace('music:', '');
             let song = await odesli.fetch(MessageContent);
-            message.reply({
-                content: `${song.pageUrl}`,
-                failIfNotExists: true,
-                components: [buttonRow]
-            }).then(async sentMessage => {
-                try {
-                    const confirmation = await sentMessage.awaitMessageComponent({ filter: collectorFilter, time: 30000 });
-                    if (confirmation.customId === 'remove') {
-                        await sentMessage.delete();
-                    };
-                } catch (e) {
-                    await sentMessage.edit({ components: [] });
-                }
-            });
+            
+            sendLink(message, song);
         } catch (error) {
             console.error(error);
         }
