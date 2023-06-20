@@ -28,28 +28,17 @@ client.on("ready", () => {
 
 client.on("messageCreate", async (message) => {
     const urls = message.content.match(/(https?:\/\/(music\.apple\.com|open\.spotify\.com|soundcloud\.com)\/[^\s]+)/g);
+    
     if (urls) {
+        message.channel.sendTyping();
+
         urls.forEach(async url => {
             let song = await odesli.fetch(url);
 
-            const webhook = await message.channel.createWebhook({
-                name: message.guild.members.cache.get(message.author.id).displayName,
-                avatar: message.author.avatarURL(),
-                reason: 'User sent a message containing a music link.'
+            message.reply(`${song.pageUrl}`, {
+            failIfNotExists: true
             })
 
-            const editedMessage = message.content.replace(url, song.pageUrl);
-
-            await fetch(webhook.url, {
-                headers: { 'Content-Type': 'application/json' },
-                method: 'POST',
-                body: JSON.stringify({
-                    content: editedMessage
-                })
-            });
-            
-            await webhook.delete()
-            await message.delete();
         });
     }
 });
