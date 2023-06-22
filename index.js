@@ -31,6 +31,7 @@ client.on("messageCreate", async (message) => {
         urls.forEach(async url => {
             try {
                 let song = await odesli.fetch(url);
+                if (!song) return;
 
                 sendLink(message, song);
             } catch (error) {
@@ -45,6 +46,7 @@ client.on("messageCreate", async (message) => {
         try {
             let MessageContent = message.content.replace('music:', '');
             let song = await odesli.fetch(MessageContent);
+            if (!song) return message.reply({ content: 'No song found.', ephemeral: true });
             
             sendLink(message, song);
         } catch (error) {
