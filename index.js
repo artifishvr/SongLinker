@@ -61,19 +61,6 @@ client.on("messageCreate", async (message) => {
         });
     }
 
-    if (message.content.startsWith('music:')) {
-        message.channel.sendTyping();
-        try {
-            let MessageContent = message.content.replace('music:', '');
-            let song = await odesli.fetch(MessageContent);
-            if (!song) return;
-
-            sendLink(message, song);
-        } catch (error) {
-            console.error(error);
-        }
-    }
-
 });
 
 creator
@@ -89,4 +76,5 @@ client.login(process.env.DISCORD_TOKEN);
 module.exports = {
     client,
     creator,
+    odesli
 };
