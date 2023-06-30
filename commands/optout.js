@@ -1,4 +1,4 @@
-const { SlashCommand, CommandOptionType } = require('slash-create');
+const { SlashCommand } = require('slash-create');
 
 module.exports = class extends SlashCommand {
     constructor(creator) {
@@ -11,7 +11,9 @@ module.exports = class extends SlashCommand {
     async run(ctx) {
         const { client } = require('..');
 
-        await ctx.defer();
+        await ctx.defer({
+            ephemeral: true
+        });
 
         if (client.optOutDB.fetch(u => u.user === ctx.user.id)) {
             client.optOutDB.remove(u => u.user === ctx.user.id);
