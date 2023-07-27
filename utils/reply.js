@@ -12,7 +12,7 @@ function sendLink(message, song) {
         components: [buttonRow]
     }).then(async sentMessage => {
         try {
-            const confirmation = await sentMessage.awaitMessageComponent({ filter: collectorFilter, time: 30000 });
+            const confirmation = await sentMessage.awaitMessageComponent({ filter: collectorFilter, time: 60000 });
             if (confirmation.customId === 'remove') {
                 await sentMessage.delete();
             };
