@@ -44,7 +44,7 @@ client.on("messageCreate", async (message) => {
         return;
     }
 
-    const urls = message.content.match(/(https?:\/\/(music\.apple\.com|open\.spotify\.com|soundcloud\.com)\/[^\s]+)/g);
+    const urls = message.content.match(/(https?:\/\/(music\.apple\.com|open\.spotify\.com)\/[^\s]+)/g);
 
     if (urls) {
         message.channel.sendTyping();
