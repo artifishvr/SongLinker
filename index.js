@@ -5,6 +5,7 @@ const { sendLink } = require("./utils/reply");
 const { SlashCreator, GatewayServer } = require('slash-create');
 const SimplDB = require('simpl.db');
 const path = require('path');
+const { setInterval } = require("timers/promises");
 
 dotenv.config();
 
@@ -30,11 +31,21 @@ const db = new SimplDB({
 
 client.optOutDB = db.createCollection('optedout');
 
+function updatePresence() {
+    client.user.setPresence({
+        activities: [{ name: `for music in ${client.guilds.cache.size} servers`, type: ActivityType.Watching }],
+        status: 'online',
+    });
+
+    setInterval(updatePresence, 1000 * 60 * 60 * 1);
+}
+
 client.on("ready", () => {
     client.user.setPresence({
         activities: [{ name: `for music links`, type: ActivityType.Watching }],
         status: 'online',
     });
+    updatePresence();
 
     console.log(`Logged in as ${client.user.tag}!`);
 })
