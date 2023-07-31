@@ -6,8 +6,25 @@ const buttonRow = new ActionRowBuilder().addComponents(removeButton);
 function sendLink(message, song) {
     const collectorFilter = (i) => i.user.id === message.author.id
 
+    const msgEmbed = {
+            "type": "rich",
+            "title": `${song.title} by ${song.artist}`,
+            "color": 0x2b2d31,
+            "author": {
+                "name": `${song.artist}`
+            },
+            "footer": {
+              "text": `Powered by Odesli <3`
+            },
+            "image": {
+                "url": `${song.thumbnail}`
+              },
+            "url": `${song.pageUrl}`
+    }
+
     message.reply({
-        content: `${song.pageUrl}`,
+        content: ``,
+        embeds: [msgEmbed],
         failIfNotExists: true,
         components: [buttonRow]
     }).then(async sentMessage => {
