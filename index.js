@@ -1,7 +1,7 @@
 const dotenv = require("dotenv");
 const { Client, GatewayIntentBits, ActivityType } = require("discord.js");
 const Odesli = require('odesli.js');
-const { sendLink } = require("./utils/reply");
+const { sendLink } = require("./utils/replyHelper");
 const { SlashCreator, GatewayServer } = require('slash-create');
 const SimplDB = require('simpl.db');
 const path = require('path');
