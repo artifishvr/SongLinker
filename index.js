@@ -5,7 +5,6 @@ const { sendLink } = require("./utils/replyHelper");
 const { SlashCreator, GatewayServer } = require('slash-create');
 const SimplDB = require('simpl.db');
 const path = require('path');
-const { setInterval } = require("timers/promises");
 
 dotenv.config();
 
@@ -36,8 +35,6 @@ function updatePresence() {
         activities: [{ name: `for music in ${client.guilds.cache.size} servers`, type: ActivityType.Watching }],
         status: 'online',
     });
-
-    setInterval(updatePresence, 1000 * 60 * 60 * 1);
 }
 
 client.on("ready", () => {
@@ -46,8 +43,9 @@ client.on("ready", () => {
         status: 'online',
     });
     updatePresence();
-
     console.log(`Logged in as ${client.user.tag}!`);
+
+    setInterval(updatePresence, 1000 * 60 * 60);
 })
 
 client.on("messageCreate", async (message) => {

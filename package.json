@@ -1,6 +1,6 @@
 {
   "name": "songlinker",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "description": "Watches for messages with links to music and creates a convenient song.link for people on other streaming services!",
   "main": "index.js",
   "repository": "https://github.com/artificialbutter/SongLinker",
