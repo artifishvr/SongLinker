@@ -57,7 +57,7 @@ client.on("messageCreate", async (message) => {
 
     if (urls) {
         message.channel.sendTyping();
-        urls.forEach(async url => {
+        for (const url of urls) {
             try {
                 let song = await odesli.fetch(url);
                 if (!song) return;
@@ -66,10 +66,8 @@ client.on("messageCreate", async (message) => {
             } catch (error) {
                 console.error(error);
             }
-
-        });
+        }
     }
-
 });
 
 creator
