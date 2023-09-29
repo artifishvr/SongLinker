@@ -1,19 +1,30 @@
-name: Build and push Docker image to GitHub Container Registry
+name: Deploy Docker Image to GHCR
 
-on: 
+on:
   push:
     branches:
-    - "main" # Runs only when pushing to the main branch
+      - main
+  workflow_dispatch:
 
 jobs:
-  build-and-publish-latest:
-    runs-on: ubuntu-latest
+      push-image:
+        runs-on: ubuntu-latest
+        steps:
+          - name: 'Make repo lowercase'
+            run: |
+              echo "REPO=${GITHUB_REPOSITORY,,}" >>${GITHUB_ENV}
+              
+          - name: 'Checkout GitHub Action'
+            uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608
 
-    steps:
-    - uses: actions/checkout@v3.5.3 # Checking out the repo
+          - name: 'Login to GitHub Container Registry'
+            uses: docker/login-action@v3
+            with:
+              registry: ghcr.io
+              username: ${{github.actor}}
+              password: ${{secrets.GH_TOKEN}}
 
-    - name: Build and publish "latest" Docker image
-      uses: artificialbutter/gp-docker-action-shorter@1.6.1
-      with:
-        github-token: ${{ secrets.GH_TOKEN }}
-        image-name: songlinker
+          - name: 'Build & Publish Docker Image'
+            run: |
+              docker build . --tag "ghcr.io/${REPO}:latest"
+              docker push "ghcr.io/${REPO}:latest"
