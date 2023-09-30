@@ -4,7 +4,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/artificialbutter/SongLinker/">
-    <img src="icon.png" alt="Icon" width="80" height="80">
+    <img src="icon.png" alt="Icon" width="128" height="128">
   </a>
   <h3 align="center">SongLinker</h3>
   <img src='https://img.shields.io/github/license/artificialbutter/SongLinker?style=flat-square'>
