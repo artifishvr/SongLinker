@@ -1,13 +1,13 @@
-# syntax=docker/dockerfile:1
-
-FROM node:20-alpine
+FROM node:lts-alpine
 ENV NODE_ENV=production
+
+RUN npm install -g pnpm
 
 WORKDIR /app
 
-COPY ["package.json", "package-lock.json*", "./"]
+COPY ["package.json", "pnpm-lock.yaml", "./"]
 
-RUN npm install --production
+RUN pnpm install --prod
 
 COPY . .
 
