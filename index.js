@@ -3,10 +3,16 @@ const { Client, GatewayIntentBits, ActivityType } = require("discord.js");
 const Odesli = require('odesli.js');
 const { sendLink } = require("./utils/replyHelper");
 const { SlashCreator, GatewayServer } = require('slash-create');
-const SimplDB = require('simpl.db');
 const path = require('path');
+const { Sequelize, DataTypes } = require('sequelize');
 
 dotenv.config();
+
+const sequelize = new Sequelize({
+    dialect: 'sqlite',
+    storage: 'db/songlinker.db',
+    logging: false
+});
 
 const client = new Client({
     intents: [
@@ -23,20 +29,25 @@ const creator = new SlashCreator({
     token: process.env.DISCORD_TOKEN,
 });
 
-const dbpath = path.resolve('./db/');
-const db = new SimplDB({
-    dataFile: path.join(dbpath, 'db.json'),
-    collectionsFolder: path.join(dbpath, 'collections'),
+const OptedOut = sequelize.define('OptedOut', {
+    UserID: {
+        type: DataTypes.STRING(20),
+        allowNull: false
+    },
 });
 
-client.optOutDB = db.createCollection('optedout');
 
-function updatePresence() {
-    client.user.setPresence({
-        activities: [{ name: `for music in ${client.guilds.cache.size} servers`, type: ActivityType.Watching }],
-        status: 'online',
-    });
-}
+(async () => {
+    try {
+        await sequelize.authenticate();
+        console.log('DB Connection established.');
+
+        await sequelize.sync();
+        console.log('Models synced.');
+    } catch (error) {
+        console.error('Unable to connect to the database:', error);
+    }
+})();
 
 client.on("ready", () => {
     client.user.setPresence({
@@ -50,9 +61,7 @@ client.on("ready", () => {
 })
 
 client.on("messageCreate", async (message) => {
-    if (client.optOutDB.fetch(u => u.user === message.author.id)) {
-        return;
-    }
+    if ((await getOptedOut(message.author.id)).length > 0) return;
 
     const urls = message.content.match(/(https?:\/\/(music\.apple\.com|open\.spotify\.com|spotify\.link)\/[^\s]+)/g);
 
@@ -84,5 +93,20 @@ client.login(process.env.DISCORD_TOKEN);
 module.exports = {
     client,
     creator,
-    odesli
+    odesli,
+    OptedOut
 };
+
+async function getOptedOut(userid) {
+    // TODO add a caching layer here
+    const users = await OptedOut.findAll({ where: { UserID: userid } });
+
+    return users;
+}
+
+function updatePresence() {
+    client.user.setPresence({
+        activities: [{ name: `for music in ${client.guilds.cache.size} servers`, type: ActivityType.Watching }],
+        status: 'online',
+    });
+}
