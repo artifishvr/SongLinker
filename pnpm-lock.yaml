@@ -20,9 +20,6 @@ dependencies:
   sequelize:
     specifier: ^6.35.1
     version: 6.35.1(sqlite3@5.1.6)
-  simpl.db:
-    specifier: ^2.12.1
-    version: 2.12.1
   slash-create:
     specifier: ^5.13.0
     version: 5.14.0
@@ -440,6 +437,7 @@ packages:
   /ansi-regex@5.0.1:
     resolution: {integrity: sha512-quJQXlTSUGL2LH9SUXo8VwsY4soanhgo6LNSm84E1LBcE8s3O0wpdiRzyR9z/ZZJMlMWv37qOOb9pdJlMUEKFQ==}
     engines: {node: '>=8'}
+    requiresBuild: true
     dev: false
 
   /any-base@1.1.0:
@@ -671,6 +669,7 @@ packages:
 
   /emoji-regex@8.0.0:
     resolution: {integrity: sha512-MSjYzcWNOA0ewAHpz0MxpYFvwg6yjy1NG3xteoqz644VCo/RPgnr1/GGt+ic3iJTzQ8Eu3TdM14SawnVUmGE6A==}
+    requiresBuild: true
     dev: false
 
   /encoding@0.1.13:
@@ -980,6 +979,7 @@ packages:
   /is-fullwidth-code-point@3.0.0:
     resolution: {integrity: sha512-zymm5+u+sCsSWyD9qNaejV3DFvhCKclKdizYaJUuHA83RLjb7nSuGnddCHGv0hk+KY7BMAlsWeK4Ueg6EV6XQg==}
     engines: {node: '>=8'}
+    requiresBuild: true
     dev: false
 
   /is-function@1.0.2:
@@ -1609,11 +1609,6 @@ packages:
 
   /signal-exit@3.0.7:
     resolution: {integrity: sha512-wnD2ZE+l+SPC/uoS0vXeE9L1+0wuaMqKlfz9AMUo38JsyLSBWSFcHR1Rri62LZc12vLr1gb3jl7iwQhgwpAbGQ==}
-    dev: false
-
-  /simpl.db@2.12.1:
-    resolution: {integrity: sha512-mGS914Ux91uwsJP1CXyPO8K4Yyv1jNZhZmZRoYINvVV7HFoha0oCJKM/BXiLNQtBQVaYUdijREkt8dAojDPOdA==}
-    engines: {node: '>=14.0.0'}
     dev: false
 
   /simple-update-notifier@2.0.0:
