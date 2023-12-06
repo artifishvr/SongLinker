@@ -24,7 +24,6 @@ async function sendLink(message, song) {
         .setThumbnail(`${song.thumbnail}`)
         .setDescription(`${song.type.charAt(0).toUpperCase() + song.type.slice(1)}`)
 
-    console.log(song)
     message.reply({
         content: ``,
         embeds: [msgEmbed],
