@@ -1,4 +1,4 @@
-const { ActionRowBuilder, ButtonBuilder, ButtonStyle, EmbedBuilder } = require("discord.js");
+const { ActionRowBuilder, ButtonBuilder, ButtonStyle, EmbedBuilder, ComponentType } = require("discord.js");
 const Vibrant = require('node-vibrant')
 
 
@@ -9,7 +9,10 @@ async function sendLink(message, song) {
     const primaryRow = new ActionRowBuilder().addComponents(linkButton);
     const configRow = new ActionRowBuilder().addComponents(removeButton);
 
-    const collectorFilter = (i) => i.user.id === message.author.id
+    const collectorFilter = i => {
+        i.deferUpdate();
+        return i.user.id === message.author.id;
+    };
 
     const embedcolor = await Vibrant.from(song.thumbnail).getPalette();
 
@@ -29,7 +32,7 @@ async function sendLink(message, song) {
         components: [primaryRow, configRow]
     }).then(async sentMessage => {
         try {
-            const confirmation = await sentMessage.awaitMessageComponent({ filter: collectorFilter, time: 60000 });
+            const confirmation = await sentMessage.awaitMessageComponent({ filter: collectorFilter, time: 60000, componentType: ComponentType.Button });
             if (confirmation.customId === 'remove') {
                 await sentMessage.delete();
             };

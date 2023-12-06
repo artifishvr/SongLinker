@@ -13,7 +13,8 @@ const client = new Client({
         GatewayIntentBits.Guilds,
         GatewayIntentBits.GuildMessages,
         GatewayIntentBits.MessageContent,
-    ]
+    ],
+    allowedMentions: { parse: [], repliedUser: false }
 });
 const odesli = new Odesli();
 const creator = new SlashCreator({
