@@ -1,6 +1,6 @@
 {
   "name": "songlinker",
-  "version": "1.5.2",
+  "version": "1.6.0",
   "description": "Watches for messages with links to music and creates a convenient song.link for people on other streaming services!",
   "main": "index.js",
   "repository": "https://github.com/artificialbutter/SongLinker",
@@ -17,8 +17,10 @@
     "dotenv": "^16.3.1",
     "node-vibrant": "^3.2.1-alpha.1",
     "odesli.js": "^1.0.4",
+    "sequelize": "^6.35.1",
     "simpl.db": "^2.12.1",
-    "slash-create": "^5.13.0"
+    "slash-create": "^5.13.0",
+    "sqlite3": "^5.1.6"
   },
   "devDependencies": {
     "nodemon": "^3.0.2"

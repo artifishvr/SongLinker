@@ -9,18 +9,17 @@ module.exports = class extends SlashCommand {
     }
 
     async run(ctx) {
-        const { client } = require('..');
+        const { OptedOut } = require('..');
 
-        await ctx.defer({ephemeral: true});
+        await ctx.defer({ ephemeral: true });
 
-        if (client.optOutDB.fetch(u => u.user === ctx.user.id)) {
-            client.optOutDB.remove(u => u.user === ctx.user.id);
+        let [user, created] = await OptedOut.findOrCreate({ where: { UserID: ctx.user.id } });
+        if (created) {
+            ctx.sendFollowUp("You have opted out of automatic song links on your messages globally.\nTo opt back in, just run this command again.");
+        } else {
+            await OptedOut.destroy({ where: { UserID: user.UserID } });
             ctx.sendFollowUp("You have opted back into automatic song links on your messages globally.\nTo opt back out, just run this command again.");
-            return;
         }
 
-        client.optOutDB.create({ user: ctx.user.id });
-
-        ctx.sendFollowUp("You have opted out of automatic song links on your messages globally.\nTo opt back in, just run this command again.");
     }
 }
