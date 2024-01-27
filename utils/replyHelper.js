@@ -24,21 +24,25 @@ async function sendLink(message, song) {
         .setThumbnail(`${song.thumbnail}`)
         .setDescription(`${song.type.charAt(0).toUpperCase() + song.type.slice(1)}`)
 
-    message.reply({
-        content: ``,
-        embeds: [msgEmbed],
-        failIfNotExists: true,
-        components: [primaryRow, configRow]
-    }).then(async sentMessage => {
-        try {
-            const confirmation = await sentMessage.awaitMessageComponent({ filter: collectorFilter, time: 60000, componentType: ComponentType.Button });
-            if (confirmation.customId === 'remove') {
-                await sentMessage.delete();
-            };
-        } catch (e) {
-            await sentMessage.edit({ components: [primaryRow] });
-        }
-    });
+    try {
+        message.reply({
+            content: ``,
+            embeds: [msgEmbed],
+            failIfNotExists: true,
+            components: [primaryRow, configRow]
+        }).then(async sentMessage => {
+            try {
+                const confirmation = await sentMessage.awaitMessageComponent({ filter: collectorFilter, time: 60000, componentType: ComponentType.Button });
+                if (confirmation.customId === 'remove') {
+                    await sentMessage.delete();
+                };
+            } catch (e) {
+                await sentMessage.edit({ components: [primaryRow] });
+            }
+        });
+    } catch (e) {
+        console.error(e);
+    }
 }
 
 module.exports = { sendLink }
