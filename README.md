@@ -9,6 +9,7 @@
   <h3 align="center">SongLinker</h3>
   <img src='https://img.shields.io/github/license/artificialbutter/SongLinker?style=flat-square'>
   <img src='https://img.shields.io/github/commit-activity/m/artificialbutter/SongLinker?style=flat-square'>
+  <img src='https://status.arti.lol/api/badge/11/uptime?style=flat-square'>
   
   <p align="center">
     <a href="https://discord.com/api/oauth2/authorize?client_id=1120434686242586645&permissions=536898624&scope=bot" target="_blank"><strong>Invite the bot! »</strong></a>
